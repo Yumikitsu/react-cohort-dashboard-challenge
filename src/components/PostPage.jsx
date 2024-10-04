@@ -13,7 +13,7 @@ function PostPage() {
     useEffect(() => {
         const postId = parseInt(id)
         setPost(posts.find(post => post.id === postId))
-    }, [])
+    }, [id, posts])
 
     if(!post) {
         return <div>Loading...</div>

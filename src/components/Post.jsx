@@ -2,11 +2,16 @@ import { useContext, useEffect, useState } from "react"
 import { AppContext } from "../App"
 import Comment from "./Comment"
 import { Link, useNavigate } from "react-router-dom"
+import TrashCan from '../assets/trashcan.png'
+import Edit from '../assets/pen.png'
+import Send from '../assets/send.svg'
 
 function Post({ post, contact }) {
     const { user } = useContext(AppContext)
     const [comments, setComments] = useState([])
     const [expand, setExpand] = useState(false)
+    const [edit, setEdit] = useState(false)
+    const [postEdit, setPostEdit] = useState(post)
     const navigate = useNavigate()
 
     const initialCommentData = {
@@ -23,7 +28,8 @@ function Post({ post, contact }) {
         .then(data => setComments(data))
         
         setExpand(false)
-    }, [])
+        setEdit(false)
+    }, [post.id])
 
     const updateComments = () => {
         fetch(`https://boolean-uk-api-server.fly.dev/Yumikitsu/post/${post.id}/comment`)
@@ -44,6 +50,7 @@ function Post({ post, contact }) {
             if (response.ok) {
                 updateComments()
                 setComment(initialCommentData)
+                window.location.reload()
             } else {
                 console.error("Failed to post a Comment")
             }
@@ -52,9 +59,53 @@ function Post({ post, contact }) {
         }
     }
 
+    const handleDeletePost = async () => {
+        try {
+            const response = await fetch(`https://boolean-uk-api-server.fly.dev/Yumikitsu/post/${post.id}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+
+            if (response.ok) {
+                navigate('/')
+                window.location.reload()
+            } else {
+                console.error("Failed to delete a Post")
+            }
+        } catch (error) {
+            console.error("Error:", error)
+        }
+    }
+
+    const handleEditPost = async () => {
+        try {
+            const response = await fetch(`https://boolean-uk-api-server.fly.dev/Yumikitsu/post/${post.id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(postEdit)
+            })
+
+            if (response.ok) {
+                window.location.reload()
+            } else {
+                console.error("Failed to delete a Post")
+            }
+        } catch (error) {
+            console.error("Error:", error)
+        }
+    }
+
     // Handle a freetext change event
     const handleTextChange = (event) => {
-        setComment({...comment, [event.target.name]:event.target.value})
+        if(event.target.dataset.type === "comment") {
+            setComment({...comment, [event.target.name]:event.target.value})
+        } else if (event.target.dataset.type === "post") {
+            setPostEdit({...postEdit, [event.target.name]:event.target.value})
+        }
     }
 
     const handleButtonClick = (id) => {
@@ -63,6 +114,15 @@ function Post({ post, contact }) {
 
     const handleExpand = () => {
         setExpand(true)
+    }
+
+    const handleEdit = () => {
+        if(edit) {
+            handleEditPost()
+        } else
+        {
+            setEdit(true)
+        }
     }
 
     return (
@@ -84,9 +144,29 @@ function Post({ post, contact }) {
                         </Link>
                     </div>
                 </div>
+                <div className="PostEditAndDelete">
+                    <img className="TrashOrEditIcon"
+                    src={Edit}
+                    onClick={handleEdit}/>
+                    <img className="TrashOrEditIcon" 
+                    src={TrashCan} 
+                    onClick={handleDeletePost}/>
+                </div>
             </div>
             <div className="PostText">
-                <p>{post.content}</p>
+                {!edit ? (
+                    <>
+                        <p>{post.content}</p>
+                    </>
+                ) : (
+                    <>
+                        <textarea name="content" 
+                        value={postEdit.content} 
+                        data-type="post"
+                        onChange={handleTextChange}>
+                        </textarea>
+                    </>
+                )}
             </div>
             <div className="PostComments">
                 {!expand && comments.length > 3 ? (
@@ -109,10 +189,11 @@ function Post({ post, contact }) {
                 onClick={() => handleButtonClick(user.id)}>{user.firstName ? user.firstName[0] : ''}{user.firstName ? user.lastName[0] : ''}</button>
                 <textarea name="content" 
                 value={comment.content} 
+                data-type="comment"
                 onChange={handleTextChange}
                 placeholder="Add a comment...">
                 </textarea>
-                <button className="UserPostCommentButton" onClick={handlePostComment}>{'>'}</button>
+                <button className="UserPostCommentButton" onClick={handlePostComment}><img className="UserPostCommentButtonImage" src={Send}/></button>
             </div>
         </div>
         </>
