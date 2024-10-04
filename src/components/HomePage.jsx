@@ -47,7 +47,7 @@ function HomePage() {
     }
 
     const handleButtonClick = (id) => {
-        navigate(`/user/${id}`)
+        navigate(`/profile/${id}`)
     }
 
     return (
@@ -57,7 +57,10 @@ function HomePage() {
                 <button className="UserIcon-Home" 
                 style={{ backgroundColor: user.favouriteColour }}
                 onClick={() => handleButtonClick(user.id)}>{user.firstName ? user.firstName[0] : ''}{user.firstName ? user.lastName[0] : ''}</button>
-                <textarea name="content" value={postText.content} onChange={handleTextChange}/>
+                <textarea name="content" 
+                value={postText.content} 
+                onChange={handleTextChange}
+                placeholder="What's on your mind?"/>
                 <button className="UserPostButton" onClick={handlePost}>Post</button>
             </div>
         </div>

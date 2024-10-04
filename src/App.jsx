@@ -6,7 +6,6 @@ import Sidebar from './components/Sidebar'
 import Header from './components/Header'
 import HomePage from './components/HomePage'
 import ProfilePage from './components/ProfilePage'
-import UserPage from './components/UserPage'
 import PostPage from './components/PostPage'
 
 function App() {
@@ -68,7 +67,6 @@ function App() {
               <Routes>
                 <Route path='/' element={<HomePage />}/>
                 <Route path='/profile/:id' element={<ProfilePage onAction={updateContacts}/>}/>
-                <Route path='/user/:id' element={<UserPage />}/>
                 <Route path='/post/:id' element={<PostPage />}/>
               </Routes>
             </main>

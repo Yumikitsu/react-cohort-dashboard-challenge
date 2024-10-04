@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react"
 import { AppContext } from "../App"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 function Comment({ comment }) {
     const { contacts } = useContext(AppContext)
@@ -17,7 +17,7 @@ function Comment({ comment }) {
     }
 
     const handleButtonClick = (id) => {
-        navigate(`/user/${id}`)
+        navigate(`/profile/${id}`)
     }
 
     return (
@@ -29,7 +29,9 @@ function Comment({ comment }) {
                 onClick={() => handleButtonClick(contact.id)}>{contact.firstName ? contact.firstName[0] : ''}{contact.firstName ? contact.lastName[0] : ''}</button>
             </div>
             <div className="CommentText">
-                <h4>{contact.firstName} {contact.lastName}</h4>
+                <Link className="LinkNoUnderline" to={`/profile/${contact.id}`}>
+                    <h4>{contact.firstName} {contact.lastName}</h4>
+                </Link>
                 <p>{comment.content}</p>
             </div>
         </div>

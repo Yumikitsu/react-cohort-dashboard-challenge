@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom"
 function Post({ post, contact }) {
     const { user } = useContext(AppContext)
     const [comments, setComments] = useState([])
+    const [expand, setExpand] = useState(false)
     const navigate = useNavigate()
 
     const initialCommentData = {
@@ -20,6 +21,8 @@ function Post({ post, contact }) {
         fetch(`https://boolean-uk-api-server.fly.dev/Yumikitsu/post/${post.id}/comment`)
         .then(response => response.json())
         .then(data => setComments(data))
+        
+        setExpand(false)
     }, [])
 
     const updateComments = () => {
@@ -55,7 +58,11 @@ function Post({ post, contact }) {
     }
 
     const handleButtonClick = (id) => {
-        navigate(`/user/${id}`)
+        navigate(`/profile/${id}`)
+    }
+
+    const handleExpand = () => {
+        setExpand(true)
     }
 
     return (
@@ -68,7 +75,9 @@ function Post({ post, contact }) {
                     onClick={() => handleButtonClick(contact.id)}>{contact.firstName ? contact.firstName[0] : ''}{contact.firstName ? contact.lastName[0] : ''}</button>
                 </div>
                 <div className="PosterNameAndTitle">
-                    <h2>{contact.firstName} {contact.lastName}</h2>
+                    <Link className="LinkNoUnderline" to={`/profile/${contact.id}`}>
+                        <h2>{contact.firstName} {contact.lastName}</h2>
+                    </Link>
                     <div className="PosterTitle">
                         <Link className="SideBarLink" to={`/post/${post.id}`}>
                             <p>{post.title}</p>
@@ -80,15 +89,28 @@ function Post({ post, contact }) {
                 <p>{post.content}</p>
             </div>
             <div className="PostComments">
-                {comments.map((comment, index) => (
-                    <Comment key={index} comment={comment}/>
-                ))}
+                {!expand && comments.length > 3 ? (
+                    <>
+                    <button className="ExpandComments"
+                    onClick={() => handleExpand()}>See previous comments</button>
+                    {comments.slice(-3).map((comment, index) => (
+                        <Comment key={index} comment={comment} />
+                    ))}
+                    </>
+                ) : (
+                    comments.map((comment, index) => (
+                        <Comment key={index} comment={comment}/>
+                    ))
+                )}
             </div>
             <div className="PostAddComment">
                 <button className="UserIcon-Home" 
                 style={{ backgroundColor: user.favouriteColour }}
                 onClick={() => handleButtonClick(user.id)}>{user.firstName ? user.firstName[0] : ''}{user.firstName ? user.lastName[0] : ''}</button>
-                <textarea name="content" value={comment.content} onChange={handleTextChange}>
+                <textarea name="content" 
+                value={comment.content} 
+                onChange={handleTextChange}
+                placeholder="Add a comment...">
                 </textarea>
                 <button className="UserPostCommentButton" onClick={handlePostComment}>{'>'}</button>
             </div>

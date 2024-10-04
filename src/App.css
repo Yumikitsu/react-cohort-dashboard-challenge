@@ -170,9 +170,14 @@ textarea {
   margin-right: 1rem;
   background-color: #e6ebf5;
   border: 1px solid #ccc;
-  border-radius: 4px;
+  padding: 0.8rem 0 0 0.5rem;
+  height: 30px;
+  border-radius: 8px;
   font-size: 1rem;
   resize: none;
+  font-family: inherit;
+  font-size: inherit;
+  color: #000046;
 }
 
 .UserPostButton {
@@ -270,6 +275,17 @@ textarea {
 
 .UserPostCommentButton:hover {
   background-color: #64dc78;
+}
+
+.ExpandComments {
+  border: none;
+  color: #64648c;
+  background-color: white;
+  display: flex;
+  flex-direction: flex-start;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  cursor: pointer;
 }
 
 /* Comments */
@@ -426,10 +442,8 @@ input[type="text"]:required {
   background-color: #64dc78;
 }
 
-/* User Page */
-.UserNoPosts {
-  display: flex;
-  justify-content: center;
-  margin-top: 3rem;
+/* Link No Underline */
+.LinkNoUnderline {
+  text-decoration: none;
   color: #000046;
 }
