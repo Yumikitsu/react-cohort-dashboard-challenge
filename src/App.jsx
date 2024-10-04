@@ -12,12 +12,20 @@ import PostPage from './components/PostPage'
 function App() {
   const [user, setUser] = useState(null)
   const [contacts, setContacts] = useState([])
+  const [posts, setPosts] = useState([])
 
   // Get all the contacts
   useEffect(() => {
     fetch("https://boolean-uk-api-server.fly.dev/Yumikitsu/contact")
     .then(response => response.json())
     .then(data => setContacts(data))
+  }, [])
+
+  // Get the posts
+  useEffect(() => {
+    fetch("https://boolean-uk-api-server.fly.dev/Yumikitsu/post")
+    .then(response => response.json())
+    .then(data => setPosts(data))
   }, [])
 
   // Set the user to the contact with id 1
@@ -40,9 +48,10 @@ function App() {
     .then(data => setContacts(data))
   }
 
+
   return (
     <>
-    <AppContext.Provider value={{ user, setUser, contacts }}>
+    <AppContext.Provider value={{ user, setUser, contacts, posts, setPosts }}>
       <div className="CohortManager">
         <div className="CohortManagerTop">
           {/* Header with Logo + User signed in icon */}

@@ -88,6 +88,7 @@ h2 {
 .SideBarLink {
   width: 100%;
   text-decoration: none;
+  color: #64648c;
 }
 
 .SideBarLinkActive {
@@ -151,7 +152,6 @@ h2 {
   padding: 1rem;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  margin-bottom: 1rem;
 }
 
 .UserIcon-Home {
@@ -189,14 +189,122 @@ textarea {
   background-color: #64dc78;
 }
 
+
+/* Post */
 .PostContent {
   width: 90%;
   background-color: #ffffff;
   padding: 1rem;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-top: 1rem;
   margin-bottom: 1rem;
 }
+
+.PosterAndTitle {
+  display: flex;
+  align-items: center;
+}
+
+.PosterIcon {
+  margin-bottom: 1.4rem;
+}
+
+.PosterNameAndTitle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-bottom: 1.3rem;
+}
+
+.PosterNameAndTitle h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: #000046;
+}
+
+.PosterTitle * {
+  margin: 0;
+  margin-top: 0.4rem;
+}
+
+.PoterNameAndTitle p {
+  margin: 0;
+  font-size: 1rem;
+  color: #64648c;
+}
+
+.PostText {
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #ccc;
+}
+
+.PostText p {
+  margin: 0;
+  color: #000046
+}
+
+.PostAddComment {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.PostAddComment textarea {
+  position: relative;
+}
+
+.UserPostCommentButton {
+  position: absolute;
+  right: 1.5rem;
+  bottom: 10px;
+  padding: 0.5rem 0.75rem;
+  background-color: #b3b3eb;
+  color: #000046;
+  border: none;
+  border-radius: 50% 50%;
+  cursor: pointer;
+  z-index: 100;
+}
+
+.UserPostCommentButton:hover {
+  background-color: #64dc78;
+}
+
+/* Comments */
+.PostComments {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.Comment {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  margin-right: 1rem;
+}
+
+.CommentText {
+  background-color: #F0F5FA;
+  padding: 1rem 0 1rem 1rem;
+  border-radius: 8px;
+  flex-grow: 1;
+}
+
+.CommentText h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1rem;
+  color: #000046;
+}
+
+.CommentText p {
+  margin: 0;
+  font-size: 1rem;
+  color: #000046;
+}
+
 
 /* Profile Page */
 .ProfileTop {
@@ -283,6 +391,7 @@ label {
   flex-direction: column;
   margin-bottom: 1rem;
   font-size: 0.9rem;
+  color: #64648c;
 }
 
 input[type="text"] {
@@ -291,6 +400,7 @@ input[type="text"] {
   padding: 0.5rem;
   border-radius: 4px;
   font-size: 1rem;
+  color: #000046;
 }
 
 input[type="text"]:required {
@@ -314,4 +424,12 @@ input[type="text"]:required {
 
 .SubmitForm:hover {
   background-color: #64dc78;
+}
+
+/* User Page */
+.UserNoPosts {
+  display: flex;
+  justify-content: center;
+  margin-top: 3rem;
+  color: #000046;
 }

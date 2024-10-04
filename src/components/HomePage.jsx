@@ -1,24 +1,19 @@
 import { useContext, useEffect, useState } from "react"
 import { AppContext } from "../App"
 import Post from "./Post"
+import { useNavigate } from "react-router-dom"
 
 function HomePage() {
-    const { user, contacts } = useContext(AppContext)
-    const [posts, setPosts] = useState([])
+    const { user, contacts, posts, setPosts } = useContext(AppContext)
     const initialPostData = {
         title: 'New Post',
         content: '',
         contactId: user.id
     }
-
     const [postText, setPostText] = useState(initialPostData)
+    const navigate = useNavigate()
 
-    useEffect(() => {
-        fetch("https://boolean-uk-api-server.fly.dev/Yumikitsu/post")
-        .then(response => response.json())
-        .then(data => setPosts(data))
-    }, [])
-
+    // Update posts
     const updatePosts = () => {
         fetch("https://boolean-uk-api-server.fly.dev/Yumikitsu/post")
         .then(response => response.json())
@@ -51,11 +46,17 @@ function HomePage() {
         setPostText({...postText, [event.target.name]:event.target.value})
     }
 
+    const handleButtonClick = (id) => {
+        navigate(`/user/${id}`)
+    }
+
     return (
         <>
         <div className="HomePageContent">
             <div className="UserPost">
-                <button className="UserIcon-Home" style={{ backgroundColor: user.favouriteColour }}>{user.firstName ? user.firstName[0] : ''}{user.firstName ? user.lastName[0] : ''}</button>
+                <button className="UserIcon-Home" 
+                style={{ backgroundColor: user.favouriteColour }}
+                onClick={() => handleButtonClick(user.id)}>{user.firstName ? user.firstName[0] : ''}{user.firstName ? user.lastName[0] : ''}</button>
                 <textarea name="content" value={postText.content} onChange={handleTextChange}/>
                 <button className="UserPostButton" onClick={handlePost}>Post</button>
             </div>
